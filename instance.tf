@@ -1,7 +1,6 @@
 resource "aws_instance" "app-server1" {
   instance_type               = "t2.micro"
   ami                         = "ami-053b0d53c279acc90"
-  key_name                    = "ssh-key"
   vpc_security_group_ids      = [aws_security_group.http-sg.id]
   subnet_id                   = aws_subnet.public-sb1.id
   associate_public_ip_address = true
