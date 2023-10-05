@@ -1,7 +1,12 @@
+variable "main" {
+  type    = string
+  default = "vpc-08d79f7c063b44fb2"
+
+}
 resource "aws_security_group" "my_app1" {
   name        = "my-app1"
   description = "Allow My App Access"
-  vpc_id      = "vpc-08d79f7c063b44fb2"
+  vpc_id      = var.main
 
   ingress {
     description = "Allow SSH Access"
