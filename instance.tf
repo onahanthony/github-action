@@ -3,6 +3,7 @@ resource "aws_instance" "app-server1" {
   ami                         = "ami-053b0d53c279acc90"
   vpc_security_group_ids      = [aws_security_group.http-sg.id]
   subnet_id                   = aws_subnet.public-sb1.id
+  key_name		= "ssh-key"
   associate_public_ip_address = true
 
   user_data = <<EOF
