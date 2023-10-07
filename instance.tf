@@ -1,4 +1,4 @@
-resource "aws_instance" "app-server2" {
+resource "aws_instance" "app-server1" {
   instance_type               = "t2.micro"
   ami                         = "ami-053b0d53c279acc90"
   vpc_security_group_ids      = [aws_security_group.http-sg.id]
