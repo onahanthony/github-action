@@ -26,6 +26,12 @@ jobs:
         id: init
         run: terraform init
 
+      - name: terraform init
+        shell: bash
+        run: |
+         mkdir -p /home/runner/
+         touch /home/runner/inventory
+
       - name: terraform plan
         id: plan
         if: github.event_name == 'push'
