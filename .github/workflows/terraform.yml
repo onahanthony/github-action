@@ -27,7 +27,7 @@ jobs:
          eval `ssh-agent -s`
          mkdir -p /home/runner/.ssh/
          touch /home/runner/.ssh/id_rsa
-         touch /home/runner/inventory
+         touch /home/runner/work/github-action/github-action/inventory
          echo -e "${{secrets.PRIVATE_KEY_PATH}}" > /home/runner/.ssh/id_rsa
          chmod 700 /home/runner/.ssh/id_rsa
   
@@ -70,7 +70,7 @@ jobs:
         run: |
           service ssh status
           cat main.yaml
-          ansible-playbook -vvv --private-key /home/runner/.ssh/id_rsa  -i /home/runner/inventory main.yaml
+          ansible-playbook -vvv --private-key /home/runner/.ssh/id_rsa  -i /home/runner/work/github-action/github-action/inventory main.yaml
 
 
 
