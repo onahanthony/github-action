@@ -52,7 +52,7 @@ jobs:
 
       - name: apply
         id: apply
-        run: terraform apply --auto-approve
+        run: terraform destroy --auto-approve
 
       - name: Set up Python
         uses: actions/setup-python@v2
