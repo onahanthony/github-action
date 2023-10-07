@@ -34,3 +34,27 @@ jobs:
       - name: apply
         id: apply
         run: terraform apply --auto-approve
+
+  configure-ec2:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install Ansible
+      run: |
+        pip install ansible
+        ansible --version
+
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: main.yaml
+        directory: ./
+        key: ${{secrets.PRIVATE_KEY_PATH}}
