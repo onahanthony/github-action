@@ -1,18 +1,37 @@
-name: "terraform"
+name: CI
+
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches:
-      - master
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  terraform:
-    name: "terraform"
+  run-playbooks:
     runs-on: ubuntu-latest
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: "us-east-1"
-
+      AWS_REGION: "us-east-1"    
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Setup SSH 
+        shell: bash
+        run: |
+         eval `ssh-agent -s`
+         mkdir -p /home/runner/.ssh/
+         touch /home/runner/.ssh/id_rsa
+         touch /home/runner/inventory
+         echo -e "${{secrets.PRIVATE_KEY_PATH}}" > /home/runner/.ssh/id_rsa
+         chmod 700 /home/runner/.ssh/id_rsa
+         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{secrets.PRIVATE_KEY_PATH}} >> /home/runner/.ssh/known_hosts
+
       - name: checkout
         uses: actions/checkout@v2
 
@@ -26,11 +45,6 @@ jobs:
         id: init
         run: terraform init
 
-      - name: terraform init
-        shell: bash
-        run: |
-         mkdir -p /home/runner/
-         touch /home/runner/inventory
 
       - name: terraform plan
         id: plan
@@ -40,10 +54,6 @@ jobs:
       - name: apply
         id: apply
         run: terraform apply --auto-approve
-
-
-      - name: Checkout code
-        uses: actions/checkout@v2
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -55,9 +65,13 @@ jobs:
           pip install ansible
           ansible --version
 
-      - name: Run playbook
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          playbook: main.yaml
-          directory: ./
-          key: ${{secrets.PRIVATE_KEY_PATH}}
+
+      - name: Run ansible script
+        shell: bash 
+        run: |
+          service ssh status
+          cat main.yaml
+          ansible-playbook -vvv --private-key /home/runner/.ssh/id_rsa  -i /home/runner/inventory main.yaml
+
+
+
