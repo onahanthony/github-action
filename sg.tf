@@ -1,7 +1,7 @@
 resource "aws_security_group" "http-sg" {
   name        = "allow_http_access"
   description = "allow inbound http traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = "vpc-0fc04ba251345b5d1"
 
   ingress {
     description = "from my ip range"
