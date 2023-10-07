@@ -26,11 +26,6 @@ jobs:
         id: init
         run: terraform init
 
-      - name: terraform init
-        id: rm
-        run: rm ./inventory
-
-
       - name: terraform plan
         id: plan
         if: github.event_name == 'push'
