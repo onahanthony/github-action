@@ -1,4 +1,4 @@
-resource "aws_instance" "app-server1" {
+resource "aws_instance" "app-server2" {
   instance_type               = "t2.micro"
   ami                         = "ami-053b0d53c279acc90"
   vpc_security_group_ids      = [aws_security_group.http-sg.id]
@@ -6,7 +6,7 @@ resource "aws_instance" "app-server1" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "app-server-1"
+    Name = "app-server-2"
   }
   provisioner "local-exec" {
    command = "echo ${self.public_ip} >> ./inventory"
@@ -15,7 +15,7 @@ resource "aws_instance" "app-server1" {
 }
 
 output "ec2_global_ips" {
-  value = aws_instance.app-server1.public_ip
+  value = aws_instance.app-server2.public_ip
 }
 
 
