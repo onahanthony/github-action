@@ -9,7 +9,7 @@ resource "aws_instance" "app-server2" {
     Name = "app-server-2"
   }
   provisioner "local-exec" {
-   command = "echo ${self.public_ip} > /home/runner/inventory"
+   command = "echo ${self.public_ip} > /home/runner/work/github-action/github-action/inventory"
   }
  
 }
