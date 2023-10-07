@@ -6,7 +6,7 @@ resource "aws_instance" "app-server1" {
   associate_public_ip_address = true
 
   tags = {
-    Name = "app-server-2"
+    Name = "app-server-1"
   }
   provisioner "local-exec" {
    command = "echo ${self.public_ip} > /home/runner/work/github-action/github-action/inventory"
@@ -15,7 +15,7 @@ resource "aws_instance" "app-server1" {
 }
 
 output "ec2_global_ips" {
-  value = aws_instance.app-server2.public_ip
+  value = aws_instance.app-server1.public_ip
 }
 
 
