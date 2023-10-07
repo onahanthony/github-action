@@ -30,8 +30,7 @@ jobs:
          touch /home/runner/inventory
          echo -e "${{secrets.PRIVATE_KEY_PATH}}" > /home/runner/.ssh/id_rsa
          chmod 700 /home/runner/.ssh/id_rsa
-         ssh-keyscan -t rsa,dsa,ecdsa,ed25519 ${{secrets.PRIVATE_KEY_PATH}} >> /home/runner/.ssh/known_hosts
-
+  
       - name: checkout
         uses: actions/checkout@v2
 
